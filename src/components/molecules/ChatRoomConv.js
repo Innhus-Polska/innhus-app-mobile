@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native-web';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import styles from '../../styles/styles.module.css';
 import DEFAULT_CONV from '../../utils/data/chat/DefaultConversation.json';
 import ChatMessagePanel from '../atoms/ChatMessagePanel';
@@ -10,7 +11,7 @@ const text = 'Dzień dobry! Chciałabym zamówić u Państwa piękny domek letni
 class ChatRoomConv extends React.Component {
     render() {
         return (
-            <div className="w-100 px-5 my-5">
+            <ScrollToBottom className="w-100 px-5 my-5">
                 {DEFAULT_CONV.map((chatMes) => {
                     return (
                         <div>
@@ -23,7 +24,7 @@ class ChatRoomConv extends React.Component {
                     );
                 })}
                 <ChatMessagePanel />
-            </div>
+            </ScrollToBottom>
         );
     }
 }

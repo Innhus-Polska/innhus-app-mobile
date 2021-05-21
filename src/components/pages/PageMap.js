@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native-web';
-import MapComponent from '../molecules/MapComponent';
+import MapComponent from '../molecules/MapComponent_';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 class PageMap extends React.Component {

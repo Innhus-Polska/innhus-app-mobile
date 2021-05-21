@@ -1,41 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from '../../styles/styles.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import imageOne from '../../assets/images/pexels-andrea-piacquadio-919436.jpg';
 
-const useStyles = makeStyles({
-    submit: {
-        background: '#709799',
-        border: 0,
-        borderRadius: 12,
-        color: 'white',
-        width: '100%',
-        height: 48,
-        marginTop: 10,
-        textTransform: 'unset',
-    },
-});
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-export default function LoginByPhone() {
-    const {
-        formState: { errors },
-        handleSubmit,
-        register,
-    } = useForm({
-        mode: 'onSubmit',
-        reValidateMode: 'onChange',
-    });
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import CheckButton from 'react-validation/build/button';
 
-    const onSubmit = (data) => {
-        console.log({ data });
+import { login } from '../../actions/auth';
+
+const required = (value) => {
+    if (!value) {
+        return (
+            <div className={styles.loginMailError} role="alert">
+                To pole jest wymagane
+            </div>
+        );
+    }
+};
+
+const LoginByPhone = (props) => {
+    const form = useRef();
+    const checkBtn = useRef();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { message } = useSelector((state) => state.message);
+
+    const dispatch = useDispatch();
+
+    const onChangeUsername = (e) => {
+        const username = e.target.value;
+        setUsername(username);
     };
 
-    const classes = useStyles();
+    const onChangePassword = (e) => {
+        const password = e.target.value;
+        setPassword(password);
+    };
 
-    const inputRequired = <div className={styles.loginMailLabel}>Podaj adres email</div>;
-    const inputValidate = <div className={styles.loginMailLabel}>Twój adres musi zawierać '@'</div>;
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        form.current.validateAll();
+
+        if (checkBtn.current.context._errors.length === 0) {
+            dispatch(login(username, password))
+                .then(() => {
+                    props.history.push('/profile');
+                    window.location.reload();
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
+        }
+    };
+
+    if (isLoggedIn) {
+        return <Redirect to="/profile" />;
+    }
 
     return (
         <div className="w-100 px-5 my-5">
@@ -44,27 +79,25 @@ export default function LoginByPhone() {
                 <div className="flex flex-row justify-center my-5">
                     <img src={imageOne} className={styles.loginAvatarImg} alt="" />
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <Form onSubmit={handleLogin} ref={form}>
                     <label className={styles.loginMailLabel}>Adres email</label>
-                    <input
-                        type="email"
+                    <Input
+                        type="text"
                         className={styles.loginMail}
-                        {...register('email', {
-                            required: inputRequired,
-                            validate: (value) => value.includes('@') || inputValidate,
-                        })}
+                        name="username"
+                        value={username}
+                        onChange={onChangeUsername}
+                        validations={[required]}
                     />
-                    {errors.email && errors.email.message}
                     <label className={styles.loginMailLabel}>Hasło</label>
-                    <input
+                    <Input
                         type="password"
                         className={styles.loginMail}
-                        {...register('password', {
-                            required: inputRequired,
-                            validate: (value) => value.includes('@') || inputValidate,
-                        })}
+                        name="password"
+                        value={password}
+                        onChange={onChangePassword}
+                        validations={[required]}
                     />
-                    {errors.email && errors.email.message}
                     <div class="w-100 mt-3">
                         <a href="/login" className={styles.loginOptions}>
                             Przypomnij hasło
@@ -75,11 +108,27 @@ export default function LoginByPhone() {
                             Zarejestruj się
                         </a>
                     </div>
-                    <Button type="submit" className={classes.submit}>
+                    <div className="form-group">
+                        <button className={styles.btnLoginSubmit} disabled={loading}>
+                            {loading && <span className="spinner-border spinner-border-sm" />}
+                            <span>Przejdź dalej</span>
+                        </button>
+                    </div>
+
+                    {message && (
+                        <div className="form-group">
+                            <div className="alert alert-danger" role="alert">
+                                {message}
+                            </div>
+                        </div>
+                    )}
+                    <CheckButton className={styles.btnLoginSubmit} ref={checkBtn}>
                         Przejdź dalej
-                    </Button>
-                </form>
+                    </CheckButton>
+                </Form>
             </div>
         </div>
     );
-}
+};
+
+export default LoginByPhone;

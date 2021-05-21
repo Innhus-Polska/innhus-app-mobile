@@ -10,7 +10,9 @@
         "currency": "PLN",
         "square": "62",
         "squarePrice": "7.984,00",
-        "link": ""
+        "link": "",
+        "isAddedToWishlist": "false",
+        "isRemovedFromWishlist": "true"
     },
     {
         "image": "../../assets/images/pexels-naim-benjelloun-2029665.jpg",
@@ -23,7 +25,9 @@
         "currency": "PLN",
         "square": "62",
         "squarePrice": "7.984,00",
-        "link": ""
+        "link": "",
+        "isAddedToWishlist": "false",
+        "isRemovedFromWishlist": "true"
     },
     {
         "image": "../../assets/images/pexels-naim-benjelloun-2029665.jpg",
@@ -36,7 +40,9 @@
         "currency": "PLN",
         "square": "62",
         "squarePrice": "7.984,00",
-        "link": ""
+        "link": "",
+        "isAddedToWishlist": "false",
+        "isRemovedFromWishlist": "true"
     },
     {
         "image": "../../assets/images/pexels-naim-benjelloun-2029665.jpg",
@@ -49,7 +55,9 @@
         "currency": "PLN",
         "square": "62",
         "squarePrice": "7.984,00",
-        "link": ""
+        "link": "",
+        "isAddedToWishlist": "false",
+        "isRemovedFromWishlist": "true"
     },
     {
         "image": "../../assets/images/pexels-naim-benjelloun-2029665.jpg",
@@ -62,6 +70,8 @@
         "currency": "PLN",
         "square": "62",
         "squarePrice": "7.984,00",
-        "link": ""
+        "link": "",
+        "isAddedToWishlist": "false",
+        "isRemovedFromWishlist": "true"
     }
 ]

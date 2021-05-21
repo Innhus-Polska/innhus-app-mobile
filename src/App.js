@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom';
 import { View } from 'react-native-web';
 import NavigationBottom from './navigations/MenuBottom';
@@ -26,9 +27,45 @@ import PageLogin from './components/pages/user/PageLogin';
 import PageForgotPassword from './components/pages/user/PageForgotPassword';
 import CookiesPolicy from './navigations/CookiesPolicy';
 
+import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import BoardUser from './components/BoardUser';
+import BoardModerator from './components/BoardModerator';
+import BoardAdmin from './components/BoardAdmin';
+
+import { logout } from './actions/auth';
+import { clearMessage } from './actions/message';
+
+import { history } from './helpers/history';
+import PageWishlist from './components/pages/PageWishlist';
+
 export default function App() {
+    const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+    const [showAdminBoard, setShowAdminBoard] = useState(false);
+
+    const { user: currentUser } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        history.listen((location) => {
+            dispatch(clearMessage()); // clear message when changing location
+        });
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (currentUser) {
+            setShowModeratorBoard(currentUser.roles.includes('ROLE_MODERATOR'));
+            setShowAdminBoard(currentUser.roles.includes('ROLE_ADMIN'));
+        }
+    }, [currentUser]);
+
+    const logOut = () => {
+        dispatch(logout());
+    };
     return (
-        <Router>
+        <Router history={history}>
             <div>
                 <Switch>
                     <Route exact path="/" component={PageCatalog} />
@@ -53,6 +90,11 @@ export default function App() {
                     <Route path="/register" component={PageRegister} />
                     <Route path="/login" component={PageLogin} />
                     <Route path="/login/remindpass" component={PageForgotPassword} />
+                    <Route exact path="/profile" component={Profile} />
+                    <Route path="/user" component={BoardUser} />
+                    <Route path="/mod" component={BoardModerator} />
+                    <Route path="/admin" component={BoardAdmin} />
+                    <Route path="/wishlist" component={PageWishlist} />
                 </Switch>
                 {/* <CookiesPolicy /> */}
                 <NavigationBottom />

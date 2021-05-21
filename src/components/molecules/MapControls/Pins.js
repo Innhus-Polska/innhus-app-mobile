@@ -16,6 +16,7 @@ function Pins(props) {
             <svg
                 height={SIZE}
                 viewBox="0 0 24 24"
+                // eslint-disable-next-line react-native/no-inline-styles
                 style={{
                     cursor: 'pointer',
                     fill: '#d00',

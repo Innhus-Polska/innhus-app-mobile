@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ChatListConversation() {
     const classes = useStyles();
     const [chatTerm, setChatTerm] = useState('');
+    const [name, setName] = useState('');
+    const [room, setRoom] = useState('');
     return (
         <div className="w-100">
             <h5 className={styles.h5}>Znajdź konwersację</h5>
@@ -60,7 +62,7 @@ export default function ChatListConversation() {
                 }).map((CHAT_CONV, key) => {
                     return (
                         <div>
-                            <a href="/chat/inbox/id">
+                            <a href="/chat/room">
                                 <div className="w-100 flex items-center mt-3">
                                     <div className="flex justify-left align-items-center" style={{ width: 64 }}>
                                         <img src={imageOne} className={styles.userIcon} alt="" />

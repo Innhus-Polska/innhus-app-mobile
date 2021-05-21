@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FooterBlock() {
     const classes = useStyles();
     return (
-        <View>
+        <View style={{ marginBottom: 100 }}>
             <img src={Logo} className={classes.logo} alt="" />
             <small className={classes.text}>
                 Innhus to grupa ekspertów i doradców którzy pomogą Ci w zakupie wymarzonego domu. Uczestniczymy w całym
